@@ -10,7 +10,7 @@
 
 A wave based twin stick shooter roguelike built in Python with pygame. Fight off waves of increasingly dangerous bugs, collect fragments, and buy really super cool upgrades.
 
-<!-- demo gif here -->
+<img src="assets/demo.gif" alt="demo" />
 
 </div>
 

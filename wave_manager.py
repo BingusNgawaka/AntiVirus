@@ -1,3 +1,4 @@
+from math import exp
 from game import *
 from enemies import *
 
@@ -65,10 +66,10 @@ class Wave(Entity):
 
     def new_round(self):
         self.timer = 0
-        self.spawnRate -= 0.2
+        self.num += 1
+        self.spawnRate = 3.5*exp(-self.num/8)
         self.miniboss_spawned = False
         self.last_spawn = 0
-        self.num += 1
         self.swappedAlready = False
         print('new round!')
         # reset player things here
@@ -90,7 +91,7 @@ class Wave(Entity):
     def spawn_random_enemy(self):
         choice = "common"
         rand = random.uniform(0,1)
-        weight = (self.num * self.timer/self.length)/4
+        weight = (self.num * self.timer/self.length)/5
         if rand > 0.85-0.2*weight:
             choice = "uncommon"
             rand = random.uniform(0,1)

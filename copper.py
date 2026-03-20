@@ -51,7 +51,7 @@ class Copper(Entity):
 
     def collision(self, player):
         if AABBCollision(self.rect, player.rect):
-            player.copper += 1
+            player.copper += 2 # double all gain
             self.remove_self()
             game.sfx.frag_pickup.stop()
             game.sfx.frag_pickup.play()
