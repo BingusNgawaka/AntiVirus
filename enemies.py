@@ -351,7 +351,7 @@ class Mosquito(Enemy):
         self.atkTimer = 0
         self.lastAttack = 0
         self.dmg = 10
-        self.atkRate = 2.25
+        self.atkRate = 2.75
         self.atkThresh = 1000
         self.col = pygame.Color("black")
         self.maxHealth = self.health

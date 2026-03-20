@@ -136,7 +136,7 @@ class Game:
         self.sfx = SFX()
 
         self.oldKeys = self.keys
-        self.input_mode = "keyboard"
+        self.input_mode = "controller"
 
         self.fullscreen = False
         self.window = None

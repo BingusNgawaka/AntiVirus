@@ -77,8 +77,8 @@ def main():
 
     game.add_scene(mainScene, "main")
     game.add_scene(menuScene, "menu")
-    #game.switch_to_scene("menu", False)
-    game.switch_to_scene("main", False) # skips menu and transition
+    game.switch_to_scene("menu", False)
+    #game.switch_to_scene("main", False) # skips menu and transition
     #game.get_entity_by_id("wave").timer = 60 # skip straight to shop
     # ----------------------------------------------------------------- #
 
@@ -91,7 +91,7 @@ def main():
         game.update(dt, real_dt)
         game.draw(game.window)
 
-        drawFPS(dt, game.window) # shd probably make this an entity
+        #drawFPS(dt, game.window) # shd probably make this an entity
 
         game.moderngl_render() # shaders and stuff
 
