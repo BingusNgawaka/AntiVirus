@@ -23,7 +23,7 @@ class ShopCardButton(Button):
         self.init_dist = 0
         self.accel = Vec2()
         self.suck_timer = 0
-        self.suck_max = 4
+        self.suck_max = 1
         self.start_rect = self.rect.copy()
         self.start_rect.y = self.hoveredY
         self.highlight = False
@@ -44,6 +44,7 @@ class ShopCardButton(Button):
                 drawRect(window, drawingRect, pygame.Color("#250047"))
                 drawText(window, str(self.card.cooldown)+"s cooldown", self.text.col, vec, round(self.text.size+self.drawingInflation.x/2), True)
                 drawingRect.y -= drawingRect.h
+                vec.y -= drawingRect.h*0.99
         except:
             pass # not an active
 
@@ -62,6 +63,8 @@ class ShopCardButton(Button):
         )
 
         # TODO: Draw card image here!!
+        vec.y += drawingRect.h*2/3
+        drawText(window, "CARD ART N/A :(", self.text.col, vec, round(self.text.size+self.drawingInflation.x/2), True)
 
     def ease_out_elastic(self, t):
         if t == 0:
@@ -180,10 +183,9 @@ class Shop(Menu):
             card_type = "PASSIVE"
             print(wave.num)
             if wave.num > 1:
-                print("AH")
                 if random.uniform(0,1) >= 0.8:
                     card_type = "ACTIVE"
-                elif wave.num % 3 == 0:
+                elif wave.num % 2 == 0:
                     if random.uniform(0,1) >= 0.9: # 20% + 10% == 30% chance to be active on rare shops
                         card_type = "ACTIVE"
 
@@ -199,6 +201,10 @@ class Shop(Menu):
         if not self.isOpen:
             self.cards = []
             num = game.get_entity_by_id("wave").num
-            rarity = "legendary"  if num == 9 else ("rare" if num % 3 == 0 else "common")
+            rarity = "legendary" if num % 3 == 0 else "common"
+            if rarity == "common" and random.uniform(0,1) >= 0.5:
+                rarity = "rare"
+            if rarity == "rare" and random.uniform(0,1) >= 0.30:
+                rarity = "legendary"
             self.gen_cards(rarity)
             super().open()

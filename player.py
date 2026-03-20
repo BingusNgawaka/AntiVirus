@@ -94,13 +94,18 @@ class Player(Entity):
         self.player_img = Image("./assets/player.png", *self.rect, (255,255,255))
         self.gun_img = Image("./assets/gun.png", *self.rect, (255,255,255))
 
-    def get_active_key(self, index):
-        active_keys = [pygame.K_SPACE, pygame.K_q, pygame.K_e]
-        return active_keys[index]
+    def is_active_pressed(self, index):
+        keyboard_active_keys = [pygame.K_SPACE, pygame.K_q, pygame.K_e]
+        controller_active_keys = ["A", "B", "Y"]
+        if(game.input_mode == "keyboard"):
+            return game.key_pressed(keyboard_active_keys[index]);
+        else:
+            return game.controller.get_pressed(controller_active_keys[index])
+
 
     def init(self):
         super().init()
-        self.deck.add_card(EMP())
+        #self.deck.add_card(EMP())
         #self.add_status_effect(Slow, 1)
         #spawn_web(Vec2(game.W/2, 100), 150, 15)
 

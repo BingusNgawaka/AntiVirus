@@ -34,7 +34,7 @@ class ActiveCard(Card):
         self.rect = Rect((cardRectx, cardRecty),dims)
         game.curr_scene.add_entity(self, "active card")
 
-        self.activation_key = self.player.get_active_key(i)
+        self.activation_key = i
 
         self.img = Image("./assets/active_icon.png", *self.rect)
 
@@ -49,7 +49,7 @@ class ActiveCard(Card):
             self.timer -= dt
             return
 
-        if game.key_pressed(self.activation_key):
+        if game.get_entity_by_id("player").is_active_pressed(self.activation_key):
             self.onAction()
             self.timer = self.cooldown
 

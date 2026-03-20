@@ -19,19 +19,27 @@ class MainMenu(Menu):
         self.open()
 
     def add_elements(self):
+        #
+        self.create_centered_button(
+            (self.rect.w/2, self.rect.h*0.05), # center
+            (self.rect.w*0.7,self.rect.h/4), # dimensions
+            (189,60,60), Text("AntiVirus",(255,255,255),100), # btnColor, TextObj
+            lambda: (),
+        ).disabled = True
+
         # start button
         self.create_centered_button(
             (self.rect.w/2, self.rect.h/3), # center
-            (self.rect.w/2,self.rect.h/4), # dimensions
-            (60,189,60), Text("START",(255,255,255),100), # btnColor, TextObj
+            (self.rect.w/3,self.rect.h/5), # dimensions
+            (60,189,60), Text("START",(255,255,255),60), # btnColor, TextObj
             lambda btn: game.switch_to_scene("main"),
         )
 
         # exit button
         self.create_centered_button(
             (self.rect.w/2, 2*self.rect.h/3), # center
-            (self.rect.w/2,self.rect.h/4), # dimensions
-            (255,0,0), Text("EXIT",(255,255,255),100), # btnColor, TextObj
+            (self.rect.w/3,self.rect.h/5), # dimensions
+            (255,0,0), Text("EXIT",(255,255,255),60), # btnColor, TextObj
             game.close,
         )
 

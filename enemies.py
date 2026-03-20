@@ -28,6 +28,18 @@ class Enemy(Entity):
         self.hit_timer = 0
         self.flash_max = 0.2
 
+        name = self.__class__.__name__.lower()
+        try:
+            self.sprite = Spritesheet(self.rect, f"./assets/{name}.png", (32,32), 0.1, False, (255, 64, 64))
+            self.sprite.addState("normal", 0, 1)
+            self.sprite.setState("normal")
+        except FileNotFoundError:
+            print(f"enemy needs sprite: {name}")
+            name = "cockroach"
+            self.sprite = Spritesheet(self.rect, f"./assets/{name}.png", (32,32), 0.1, False, (255, 64, 64))
+            self.sprite.addState("normal", 0, 1)
+            self.sprite.setState("normal")
+
         dir = 0
         if pos.x >= game.W:
             dir = math.pi
@@ -183,8 +195,11 @@ class Enemy(Entity):
         self.hit_timer -= dt
 
     def draw(self, window):
-        drawCircle(window, (self.rect.center, 1.2*self.rect.w/2), (255,64,64))
-        drawCircle(window, (self.rect.center, self.rect.w/2), self.col)
+        #drawCircle(window, (self.rect.center, 1.2*self.rect.w/2), (255,64,64))
+        #drawCircle(window, (self.rect.center, self.rect.w/2), self.col)
+        surf, rect = self.sprite.draw(self.rect.scale(2,2), window)
+        if self.stun > 0:
+            window.blit(create_white_surf(surf, 200), rect.topleft)
 
 
 # ===================Enemy Types=================== #
@@ -203,6 +218,8 @@ class Fly(Enemy):
     def movement(self):
         player = game.get_entity_by_id("player")
         self.add_force(self.get_unit_vec_to_entity(player)*self.speed)
+
+        self.sprite.rotate(random.randint(-20,20))
 
 class BabyFly(Fly):
     def __init__(self, pos):
@@ -462,6 +479,8 @@ class Ant(Enemy):
     def update(self, dt):
         super().update(dt)
         self.timer += dt
+        theta = math.atan2(self.vel.y, self.vel.x)
+        self.sprite.rotate((theta * -57.298) - 90 + random.randint(-20,20))
 
 class FireAntSwarm:
     def __init__(self, pos):
@@ -500,6 +519,8 @@ class FireAnt(Ant):
             game.sfx.shot.play()
             self.last_shot = self.timer
             self.shoot()
+        theta = math.atan2(self.vel.y, self.vel.x)
+        self.sprite.rotate((theta * -57.298) - 90 + random.randint(-20,20))
 
 class TermiteSwarm:
     # lil bit of an inbetween class cause of the way enemies are spawned
@@ -581,6 +602,8 @@ class Termite(Enemy):
             self.vel = self.vel.normalize() * minSpeed
         if speed > maxSpeed:
             self.vel = self.vel.normalize() * maxSpeed
+        theta = math.atan2(self.vel.y, self.vel.x)
+        self.sprite.rotate((theta * -57.298) - 90 + random.randint(-20,20))
 
     def repulse(self):
         pass
@@ -717,6 +740,10 @@ class MotherFly(Enemy):
         self.col = pygame.Color("black")
 
         self.atkTimer = 0
+
+        self.sprite = Spritesheet(self.rect, "./assets/motherfly.png", (64,64), 0.1, False, (255, 64, 64))
+        self.sprite.addState("normal", 0, 1)
+        self.sprite.setState("normal")
 
     def on_death(self):
         game.sfx.on_death_spawn.play()
